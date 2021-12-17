@@ -4,7 +4,7 @@ on:
   push:
     paths-ignore:
       - ".gitignore"
-      - "docs/**"
+      - "Documentation/**"
       - "README"
       - "CREDITS.TXT"
       - "COPYING_GLIB"

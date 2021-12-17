@@ -34,9 +34,9 @@ This project is released under the [GPL license](COPYING).
 Compilation & Docs
 ------------------
 
-See [docs/COMPILE.md](docs/COMPILE.md) file for how to compile and install Unicorn2.
+See [Documentation/COMPILE.md](Documentation/COMPILE.md) file for how to compile and install Unicorn2.
 
-More documentation is available in [docs/README.md](docs/README.md).
+More documentation is available in [Documentation/COMPILE.md](Documentation/COMPILE.md).
 
 
 Contact
