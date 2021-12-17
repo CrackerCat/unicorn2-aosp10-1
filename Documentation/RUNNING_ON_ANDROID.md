@@ -1,7 +1,7 @@
 ## 目前成果
-
+此脚本是linux脚本,windows下不可用
 前提条件, 保证你的手机是root状态, 而且此刻手机正插在电脑上  
-走完编译之后[COMPILE.md](Documentation/COMPILE.md)  
+走完编译之后[Documentation/COMPILE.md](Documentation/COMPILE.md)
 
 进入build文件夹, 给adb.sh一个权限  
 `chmod a+x ./adb.sh`  
