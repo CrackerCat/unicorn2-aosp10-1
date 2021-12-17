@@ -855,12 +855,7 @@ def debug():
     archs = {
         "arm": uc.UC_ARCH_ARM,
         "arm64": uc.UC_ARCH_ARM64,
-        "mips": uc.UC_ARCH_MIPS,
-        "sparc": uc.UC_ARCH_SPARC,
-        "m68k": uc.UC_ARCH_M68K,
         "x86": uc.UC_ARCH_X86,
-        "riscv": uc.UC_ARCH_RISCV,
-        "ppc": uc.UC_ARCH_PPC,
     }
 
     all_archs = ""

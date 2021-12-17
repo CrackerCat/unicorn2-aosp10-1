@@ -6,7 +6,7 @@ import sys, re, os
 
 INCL_DIR = os.path.join('..', 'include', 'unicorn')
 
-include = [ 'arm.h', 'arm64.h', 'mips.h', 'x86.h', 'sparc.h', 'm68k.h', 'ppc.h', 'riscv.h', 'unicorn.h' ]
+include = [ 'arm.h', 'arm64.h', 'x86.h', 'unicorn.h' ]
 
 template = {
     'python': {
@@ -17,12 +17,7 @@ template = {
             # prefixes for constant filenames of all archs - case sensitive
             'arm.h': 'arm',
             'arm64.h': 'arm64',
-            'mips.h': 'mips',
             'x86.h': 'x86',
-            'sparc.h': 'sparc',
-            'm68k.h': 'm68k',
-            'ppc.h': 'ppc',
-            'riscv.h': 'riscv',
             'unicorn.h': 'unicorn',
             'comment_open': '#',
             'comment_close': '',
@@ -35,12 +30,7 @@ template = {
             # prefixes for constant filenames of all archs - case sensitive
             'arm.h': 'arm',
             'arm64.h': 'arm64',
-            'mips.h': 'mips',
             'x86.h': 'x86',
-            'sparc.h': 'sparc',
-            'm68k.h': 'm68k',
-            'ppc.h': 'ppc',
-            'riscv.h': 'riscv',
             'unicorn.h': 'unicorn',
             'comment_open': '//',
             'comment_close': '',
@@ -53,12 +43,7 @@ template = {
             # prefixes for constant filenames of all archs - case sensitive
             'arm.h': 'Arm',
             'arm64.h': 'Arm64',
-            'mips.h': 'Mips',
             'x86.h': 'X86',
-            'sparc.h': 'Sparc',
-            'm68k.h': 'M68k',
-            'ppc.h': 'Ppc',
-            'riscv.h': 'Riscv',
             'unicorn.h': 'Unicorn',
             'comment_open': '//',
             'comment_close': '',

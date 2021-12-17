@@ -60,18 +60,6 @@ jobs:
               generators: 'Ninja',
               distro: ubuntu20.04
             }
-          - { 
-              os: ubuntu-latest,
-              arch: ppc64le,
-              python-arch: ppc,
-              python-ver: '3.8',
-              name: 'ubuntu-ppc64le cmake',
-              artifact: 'ubuntu-cmake-ppc64le.7z',
-              build_type: 'Debug',
-              archiver: '7z a',
-              generators: 'Ninja',
-              distro: ubuntu20.04
-            }
         compiler: [ gcc ]
     steps:
     - uses: actions/checkout@v2
@@ -105,8 +93,8 @@ jobs:
         cmake --install . --strip
         ctest -VV -C ${{ matrix.config.build_type }}
     
-    - name: '🚧 Linux ppc64le/aarch64 build'
-      if: contains(matrix.config.arch, 'ppc64le') || contains(matrix.config.arch, 'aarch64')
+    - name: '🚧 Linux aarch64 build'
+      if: contains(matrix.config.arch, 'aarch64')
       uses: uraimo/run-on-arch-action@v2.0.5
       with:
         arch: ${{ matrix.config.arch }}

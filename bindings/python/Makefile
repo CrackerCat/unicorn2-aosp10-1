@@ -72,8 +72,7 @@ clean:
 	rm -rf unicorn.egg-info
 
 
-SAMPLES = sample_arm.py sample_arm64.py sample_mips.py
-SAMPLES += sample_sparc.py sample_m68k.py sample_x86.py
+SAMPLES = sample_arm.py sample_arm64.py sample_x86.py
 check:
 	@for t in $(SAMPLES); do \
 		echo Check $$t ... ; \

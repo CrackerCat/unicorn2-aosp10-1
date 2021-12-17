@@ -30,18 +30,6 @@ if test -e $DIR/sample_arm64; then
   echo "=========================="
   $DIR/sample_arm64
 fi
-if test -e $DIR/sample_mips; then
-  echo "=========================="
-  $DIR/sample_mips
-fi
-if test -e $DIR/sample_sparc; then
-  echo "=========================="
-  $DIR/sample_sparc
-fi
-if test -e $DIR/sample_m68k; then
-  echo "=========================="
-  $DIR/sample_m68k
-fi
 
 if test -e $DIR/mem_apis; then
   echo "=========================="
