@@ -12,6 +12,7 @@ sudo apt update && sudo apt install pkg-config
 
 ```bash
 git clone https://github.com/RickyCong/unicorn2-aosp10.git && cd unicorn2-aosp10
+
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j $(nproc --all)
@@ -20,6 +21,17 @@ make -j $(nproc --all)
 
 ## Cross build with NDK (构建安卓版本的Unicorn2)
 
+
+| Android Version | SDK/API level | Version code |
+|:----|:----:|:----:|
+| Android 12 | 31 | 12 |
+| Android 11 | 30 | 11 |
+| Android 10 | 29 | 10 |
+| Android 9 | 28 | Pie |
+| Android 8.1 | 27 | Oreo |
+| Android 8.0 | 26 | Oreo |
+
+
 To build Unicorn2 on the Android platform, firstly you need to download [NDK](https://developer.android.com/ndk/downloads).
 
 For newer NDK, please make sure your cmake version is above 3.19.
@@ -27,6 +39,8 @@ For newer NDK, please make sure your cmake version is above 3.19.
 Then generate the project like:
 
 ```bash
+git clone https://github.com/RickyCong/unicorn2-aosp10.git && cd unicorn2-aosp10
+
 mkdir build; cd build;
 cmake .. -DCMAKE_TOOLCHAIN_FILE=$NDK/build/cmake/android.toolchain.cmake -DANDROID_ABI=$ABI -DANDROID_NATIVE_API_LEVEL=$MINSDKVERSION
 make
