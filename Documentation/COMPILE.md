@@ -1,4 +1,4 @@
-本文旨在linux机器上编译, 不推荐windows下编译
+只能在linux机器上编译,没有windows编译, 建议使用虚拟机来调试该框架
 
 ## Native build on Linux
 Ubuntu:
@@ -22,7 +22,7 @@ make -j $(nproc --all)
 ## Cross build with NDK (构建安卓版本运行的Unicorn2)
 
 | Android Version | SDK/API level | Version code |
-|:----|:----:|:----:|
+|:----:|:----:|:----:|
 | Android 12 | 31 | 12 |
 | Android 11 | 30 | 11 |
 | Android 10 | 29 | 10 |
@@ -42,7 +42,7 @@ git clone https://github.com/RickyCong/unicorn2-aosp10.git && cd unicorn2-aosp10
 
 mkdir build; cd build;
 cmake .. -DCMAKE_TOOLCHAIN_FILE=$NDK/build/cmake/android.toolchain.cmake -DANDROID_ABI=$ABI -DANDROID_NATIVE_API_LEVEL=$MINSDKVERSION
-make
+make -j $(nproc --all)
 ```
 
 You may get the possible values from this [page](https://developer.android.com/ndk/guides/cmake).
@@ -67,5 +67,5 @@ sudo apt install gcc-arm-linux-gnueabihf
 ```bash
 mkdir build; cd build
 cmake .. -DCMAKE_C_COMPILER=gcc-arm-linux-gnueabihf
-make
+make -j $(nproc --all)
 ```
