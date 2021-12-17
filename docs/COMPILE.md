@@ -1,56 +1,24 @@
-This HOWTO introduces how to build Unicorn2 natively on Linux/Mac/Windows or cross-build to Windows from Linux host.
+本文旨在linux机器上编译, 不推荐windows下编译
 
-Note: Please run `make clean` before you switch to `dev` branch.
-
-## Native build on Linux/macOS
-
-This builds Unicorn2 on Linux/macOS. Note that this also applies to Apple Silicon M1 users.
-
-- Install `cmake` and `pkg-config` with your favorite package manager:
-
+## Native build on Linux
 Ubuntu:
 
+1. 由于ubuntu仓库的cmake版本比较老, 先自行下载源码编译并安装[cmake](https://github.com/Kitware/CMake)
 ``` bash
-sudo apt install cmake pkg-config
-```
-
-macOS:
-
-```bash
-brew install cmake pkg-config
+sudo apt update && sudo apt install pkg-config
 ```
 
 - Build with the following commands.
 
 ```bash
-mkdir build; cd build
+git clone https://github.com/RickyCong/unicorn2-aosp10.git && cd unicorn2-aosp10
+mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
-make
+make -j $(nproc --all)
 ```
 
-## Native build on Windows, with MSVC
 
-This builds Unicorn2 on Windows, using Microsoft MSVC compiler.
-
-- Require `cmake` & `Microsoft Visual Studio`.
-
-- From Visual Studio Command Prompt, build with the following commands.
-
-```bash
-mkdir build; cd build
-cmake .. -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release
-nmake
-```
-
-Note, other generators like `Ninja` and `Visual Studio 16 2019` would also work.
-
-```bash
-mkdir build; cd build
-cmake .. -G "Visual Studio 16 2019" -A "win32" -DCMAKE_BUILD_TYPE=Release
-msbuild unicorn.sln -p:Plaform=Win32 -p:Configuration=Release
-```
-
-## Cross build with NDK
+## Cross build with NDK (构建安卓版本的Unicorn2)
 
 To build Unicorn2 on the Android platform, firstly you need to download [NDK](https://developer.android.com/ndk/downloads).
 
@@ -70,45 +38,6 @@ Unicorn2 support cross-build for `armeabi-v7a`, `arm64-v8a`, `x86` and `x86_64`.
 
 Note the build is only tested and guaranteed to work under Linux, however, other systems may still work.
 
-## Cross build from Linux host to Windows, with Mingw
-
-This cross-builds Unicorn2 from **Linux host** to Windows, using `Mingw` compiler.
-
-- Install required package.
-
-```bash
-sudo apt install mingw-w64-x86-64-dev
-```
-
-- Build Unicorn and samples with the following commands.
-
-```bash
-mkdir build; cd build
-cmake .. -DCMAKE_TOOLCHAIN_FILE=../mingw64-w64.cmake
-make
-```
-
-## Native build on Windows host, with MSYS2/Mingw
-
-This builds Unicorn2 on **Windows host**, using **MSYS2/Mingw** compiler.
-
-This requires MSYS2 to be installed on the Windows machine. You need to download & install MSYS2 from https://www.msys2.org.
-
-Then from MSYS2 console, install packages below:
-
-```bash
-pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
-```
-
-- Build Unicorn and samples with the following commands.
-
-```bash
-mkdir build; cd build
-/mingw64/bin/cmake .. -G "MSYS Makefiles" -DCMAKE_C_COMPILER=/mingw64/bin/gcc.exe -DCMAKE_MAKE_PROGRAM=/mingw64/bin/mingw32-make.exe -DCMAKE_AR=/mingw64/bin/ar.exe -DUNICORN_ARCH=x86
-mingw32-make
-```
-
-Note that the way to build on MSYS changes as time goes, please keep in mind that always use the cmake shipped with mingw64 and choose MSYS Makefiles.
 
 ## Cross build from Linux host to other architectures
 
