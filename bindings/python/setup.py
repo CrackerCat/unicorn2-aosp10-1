@@ -34,9 +34,6 @@ VERSION = "2.0.0rc5.post1"
 if SYSTEM == 'darwin':
     LIBRARY_FILE = "libunicorn.dylib"
     STATIC_LIBRARY_FILE = None
-elif SYSTEM in ('win32', 'cygwin'):
-    LIBRARY_FILE = "unicorn.dll"
-    STATIC_LIBRARY_FILE = "unicorn.lib"
 else:
     LIBRARY_FILE = "libunicorn.so"
     STATIC_LIBRARY_FILE = None
@@ -56,7 +53,6 @@ def copy_sources():
     os.mkdir(SRC_DIR)
 
     shutil.copytree(os.path.join(ROOT_DIR, '../../qemu'), os.path.join(SRC_DIR, 'qemu/'))
-    shutil.copytree(os.path.join(ROOT_DIR, '../../msvc'), os.path.join(SRC_DIR, 'msvc/'))
     shutil.copytree(os.path.join(ROOT_DIR, '../../include'), os.path.join(SRC_DIR, 'include/'))
     # make -> configure -> clean -> clean tests fails unless tests is present
     shutil.copytree(os.path.join(ROOT_DIR, '../../tests'), os.path.join(SRC_DIR, 'tests/'))
@@ -113,39 +109,26 @@ def build_libraries():
     else:
         has_msbuild = True
 
-    if has_msbuild and SYSTEM == 'win32':
-        plat = 'Win32' if platform.architecture()[0] == '32bit' else 'x64'
-        conf = 'Debug' if os.getenv('DEBUG', '') else 'Release'
-        if not os.path.exists(BUILD_DIR):
-            os.mkdir(BUILD_DIR)
-        
-        subprocess.check_call(['cmake', '-B', BUILD_DIR, '-G', "Visual Studio 16 2019", "-A", plat, "-DCMAKE_BUILD_TYPE=" + conf])
-        subprocess.check_call(['msbuild', 'unicorn.sln', '-m', '-p:Platform=' + plat, '-p:Configuration=' + conf], cwd=BUILD_DIR)
+    # platform description refs at https://docs.python.org/2/library/sys.html#sys.platform
+    if not os.path.exists(BUILD_DIR):
+        os.mkdir(BUILD_DIR)
+    conf = 'Debug' if os.getenv('DEBUG', '') else 'Release'
 
-        obj_dir = os.path.join(BUILD_DIR, conf)
-        shutil.copy(os.path.join(obj_dir, LIBRARY_FILE), LIBS_DIR)
-        shutil.copy(os.path.join(obj_dir, STATIC_LIBRARY_FILE), LIBS_DIR)
-    else:
-        # platform description refs at https://docs.python.org/2/library/sys.html#sys.platform
-        if not os.path.exists(BUILD_DIR):
-            os.mkdir(BUILD_DIR)
-        conf = 'Debug' if os.getenv('DEBUG', '') else 'Release'
+    subprocess.check_call(["cmake", '-B', BUILD_DIR, "-DCMAKE_BUILD_TYPE=" + conf])
+    os.chdir(BUILD_DIR)
+    threads = os.getenv("THREADS", "4")
+    subprocess.check_call(["cmake", "--build", ".", "-j" + threads])
 
-        subprocess.check_call(["cmake", '-B', BUILD_DIR, "-DCMAKE_BUILD_TYPE=" + conf])
-        os.chdir(BUILD_DIR)
-        threads = os.getenv("THREADS", "4")
-        subprocess.check_call(["cmake", "--build", ".", "-j" + threads])
-    
-        shutil.copy(LIBRARY_FILE, LIBS_DIR)
-        try:
-            # static library may fail to build on windows if user doesn't have visual studio installed. this is fine.
-            if STATIC_LIBRARY_FILE is not None:
-                shutil.copy(STATIC_LIBRARY_FILE, LIBS_DIR)
-        except FileNotFoundError:
-            print('Warning: Could not build static library file! This build is not appropriate for a binary distribution')
-            # enforce this
-            if 'upload' in sys.argv:
-                sys.exit(1)
+    shutil.copy(LIBRARY_FILE, LIBS_DIR)
+    try:
+        # static library may fail to build on windows if user doesn't have visual studio installed. this is fine.
+        if STATIC_LIBRARY_FILE is not None:
+            shutil.copy(STATIC_LIBRARY_FILE, LIBS_DIR)
+    except FileNotFoundError:
+        print('Warning: Could not build static library file! This build is not appropriate for a binary distribution')
+        # enforce this
+        if 'upload' in sys.argv:
+            sys.exit(1)
     os.chdir(cwd)
 
 
@@ -187,11 +170,6 @@ if 'bdist_wheel' in sys.argv and '--plat-name' not in sys.argv:
         # see https://github.com/pypa/manylinux
         # see also https://github.com/angr/angr-dev/blob/master/bdist.sh
         sys.argv.insert(idx + 1, 'manylinux1_' + platform.machine())
-    elif 'mingw' in name:
-        if IS_64BITS:
-            sys.argv.insert(idx + 1, 'win_amd64')
-        else:
-            sys.argv.insert(idx + 1, 'win32')
     else:
         # https://www.python.org/dev/peps/pep-0425/
         sys.argv.insert(idx + 1, name.replace('.', '_').replace('-', '_'))
@@ -220,7 +198,7 @@ Unicorn offers some unparalleled features:
 - Multi-architecture: ARM, ARM64 (ARMv8), M68K, MIPS, PowerPC, SPARC and X86 (16, 32, 64-bit)
 - Clean/simple/lightweight/intuitive architecture-neutral API
 - Implemented in pure C language, with bindings for Crystal, Clojure, Perl, Rust, Python, Java, Go, Pharo, and Lua.
-- Native support for Windows & *nix (with Mac OSX, Linux, *BSD & Solaris confirmed)
+- Native support *nix (with Mac OSX, Linux, *BSD & Solaris confirmed)
 - High performance via Just-In-Time compilation
 - Support for fine-grained instrumentation at various levels
 - Thread-safety by design

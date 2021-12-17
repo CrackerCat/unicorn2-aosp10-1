@@ -21,46 +21,11 @@ if _python2:
     range = xrange
 
 _lib = { 'darwin': 'libunicorn.dylib',
-         'win32': 'unicorn.dll',
-         'cygwin': 'cygunicorn.dll',
          'linux': 'libunicorn.so',
          'linux2': 'libunicorn.so' }
 
-
-# Windows DLL in dependency order
-_all_windows_dlls = (
-    "libwinpthread-1.dll",
-    "libgcc_s_seh-1.dll",
-    "libgcc_s_dw2-1.dll",
-)
-
-_loaded_windows_dlls = set()
-
-def _load_win_support(path):
-    for dll in _all_windows_dlls:
-        if dll in _loaded_windows_dlls:
-            continue
-
-        lib_file = os.path.join(path, dll)
-        if ('/' not in path and '\\' not in path) or os.path.exists(lib_file):
-            try:
-                #print('Trying to load Windows library', lib_file)
-                ctypes.cdll.LoadLibrary(lib_file)
-                #print('SUCCESS')
-                _loaded_windows_dlls.add(dll)
-            except OSError as e:
-                #print('FAIL to load %s' %lib_file, e)
-                continue
-
-# Initial attempt: load all dlls globally
-if sys.platform in ('win32', 'cygwin'):
-    _load_win_support('')
-
 def _load_lib(path):
     try:
-        if sys.platform in ('win32', 'cygwin'):
-            _load_win_support(path)
-
         lib_file = os.path.join(path, _lib.get(sys.platform, 'libunicorn.so'))
         dll = ctypes.cdll.LoadLibrary(lib_file)
         #print('SUCCESS')

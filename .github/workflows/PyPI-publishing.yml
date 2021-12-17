@@ -23,18 +23,6 @@ jobs:
       matrix:
         config:
           - { 
-              os: windows-latest,
-              arch: x64,
-              python-ver: '3.8',
-              name: 'win_amd64'
-            }
-          - { 
-              os: windows-latest,
-              arch: x32,
-              python-ver: '3.8',
-              name: 'win32'
-            }
-          - { 
               os: ubuntu-latest, 
               arch: x64, 
               python-ver: '3.8', 
@@ -66,18 +54,6 @@ jobs:
       with:
         python-version: ${{ matrix.config.python-ver }}
 
-    - name: '🛠️ Add msbuild to PATH'
-      if: contains(matrix.config.name, 'win')
-      uses: microsoft/setup-msbuild@v1.0.3
-      with:
-        vs-version: '16.5'
-
-    - name: '🛠️ Win build dependencies'
-      if: contains(matrix.config.name, 'win')
-      shell: bash
-      run: |
-        choco install ninja cmake
-
     - name: '🛠️ Install dependencies'
       run: |
         pip install setuptools wheel
@@ -85,10 +61,7 @@ jobs:
     - name: '🚧 Build distribution'
       shell: bash 
       run: |
-        if [ ${{ matrix.config.name }} == 'win32' ]; then
-              cd bindings/python && python setup.py build -p win32 sdist bdist_wheel -p win32
-              rm dist/*.tar.gz
-        elif [ ${{ matrix.config.name }} == 'manylinux2014_i686' ]; then
+        if [ ${{ matrix.config.name }} == 'manylinux2014_i686' ]; then
               docker run --rm -v `pwd`/:/work dockcross/manylinux2014-x86 > ./dockcross
               chmod +x ./dockcross
               ./dockcross bindings/python/build_wheel.sh

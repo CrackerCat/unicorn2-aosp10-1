@@ -57,7 +57,6 @@ Nguyen Tan Cong
 Loi Anh Tuan
 Shaun Wheelhouse: Homebrew package
 Kamil Rytarowski: Pkgsrc package
-Zak Escano: MSVC support.
 Chris Eagle: Java binding
 Ryan Hileman: Go binding
 Jonathon Reinhart: C unit test
@@ -71,7 +70,6 @@ Huitao Chen (chenhuitao) & KaiJern Lau (xwings): Cmake support
 Huitao Chen (chenhuitao) & KaiJern Lau (xwings): Python3 support for building
 Kevin Foo (chfl4gs): Travis-CI migration
 Simon Gorchakov: PowerPC target
-Stuart Dootson (studoot): MSVC compatibility with PowerPC target support
 Ziqiao Kong (lazymio): uc_context_free() API and various bug fix & improvement.
 Sven Almgren (blindmatrix): bug fix
 Chenxu Wu (kabeor): Documentation

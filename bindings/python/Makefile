@@ -67,8 +67,6 @@ sdist3_win:
 
 clean:
 	rm -rf src/ dist/ build/ MANIFEST
-	rm -rf prebuilt/win64/unicorn.dll
-	rm -rf prebuilt/win32/unicorn.dll
 	rm -rf unicorn/lib unicorn/include
 	rm -rf unicorn/*.pyc
 	rm -rf unicorn.egg-info
