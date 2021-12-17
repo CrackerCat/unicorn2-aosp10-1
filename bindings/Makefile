@@ -23,9 +23,6 @@ build:
 	$(MAKE) -C python gen_const
 	$(MAKE) -C go gen_const
 	$(MAKE) -C java gen_const
-	$(MAKE) -C ruby gen_const
-	python3 const_generator.py dotnet
-	python3 const_generator.py pascal
 
 install: build
 	$(MAKE) -C python install

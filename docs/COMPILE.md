@@ -8,7 +8,7 @@ Ubuntu:
 sudo apt update && sudo apt install pkg-config
 ```
 
-- Build with the following commands.
+2. Build with the following commands.
 
 ```bash
 git clone https://github.com/RickyCong/unicorn2-aosp10.git && cd unicorn2-aosp10
@@ -20,7 +20,6 @@ make -j $(nproc --all)
 
 
 ## Cross build with NDK (构建安卓版本的Unicorn2)
-
 
 | Android Version | SDK/API level | Version code |
 |:----|:----:|:----:|

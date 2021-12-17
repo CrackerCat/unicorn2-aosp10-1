@@ -26,24 +26,9 @@ jobs:
       matrix:
         config:
           - { 
-              os: windows-latest,
-              arch: x64,
-              name: 'Windows x86_64'
-            }
-          - { 
-              os: windows-latest,
-              arch: x32,
-              name: 'Windows x86'
-            }
-          - { 
               os: ubuntu-latest,
               arch: x64,
               name: 'Ubuntu x86_64'
-            }
-          - { 
-             os: macos-latest,
-             arch: x64,
-             name: 'macOS x86_64'
             }
     steps:
     - uses: actions/checkout@v2
