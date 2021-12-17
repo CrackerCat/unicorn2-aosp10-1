@@ -19,7 +19,7 @@ make -j $(nproc --all)
 ```
 
 
-## Cross build with NDK (构建安卓版本的Unicorn2)
+## Cross build with NDK (构建安卓版本运行的Unicorn2)
 
 | Android Version | SDK/API level | Version code |
 |:----|:----:|:----:|
